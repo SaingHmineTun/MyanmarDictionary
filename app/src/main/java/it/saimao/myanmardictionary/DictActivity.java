@@ -131,8 +131,9 @@ public class DictActivity extends AppCompatActivity {
         for (String word : words) {
             TextView tv = (TextView) getLayoutInflater().inflate(R.layout.chip, null);
             tv.setOnClickListener(v -> {
-                Dict dict = dictDao.getSingleDictByWord(word);
+                dict = dictDao.getSingleDictByWord(word);
                 if (dict != null) {
+                    Utils.setSavedWord(dict.getStripWord());
                     initDictById(dict);
                 }
             });

@@ -52,13 +52,14 @@ public class HomeFragment extends Fragment {
         showEmptyView(true);
     }
 
-    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private ScheduledFuture<?> filterTask;
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             // Cancel previous task if exists
+            Utils.setSavedWord(s.toString());
             if (filterTask != null && !filterTask.isDone()) {
                 filterTask.cancel(false);
             }
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment {
                 requireActivity().runOnUiThread(() -> {
                     filterData(s.toString());
                 });
-            }, 1, TimeUnit.SECONDS);
+            }, 750, TimeUnit.MILLISECONDS);
         }
 
         @Override

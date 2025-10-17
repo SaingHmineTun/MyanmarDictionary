@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.saimao.myanmardictionary.adapter.DictAdapter;
 import it.saimao.myanmardictionary.dao.DictDao;
@@ -26,7 +24,6 @@ public class FavoriteFragment extends Fragment {
     private FavDao favDao;
     private DictDao dictDao;
     private DictAdapter dictAdapter;
-    private ExecutorService executorService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +37,6 @@ public class FavoriteFragment extends Fragment {
     private void initDatabase() {
         favDao = MyanmarDictionary.getInstance(requireContext()).favDao();
         dictDao = MyanmarDictionary.getInstance(requireContext()).dicDao();
-        executorService = Executors.newFixedThreadPool(2);
     }
 
     private void initRecyclerView() {
@@ -53,25 +49,18 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void loadFavoriteData() {
-        executorService.execute(() -> {
-            var favourites = favDao.getAllFavorites();
-            if (favourites == null || favourites.isEmpty()) {
-                requireActivity().runOnUiThread(() -> {
-                    showEmptyView(true);
-                });
-            } else {
-                var favoriteDicts = new ArrayList<Dict>();
-                for (Fav fav : favourites) {
-                    Dict dict = dictDao.getDictById(fav.getId());
-                    favoriteDicts.add(dict);
-                }
-                requireActivity().runOnUiThread(() -> {
-                    showEmptyView(false);
-                    dictAdapter.submitList(favoriteDicts);
-                });
-
+        var favourites = favDao.getAllFavorites();
+        if (favourites == null || favourites.isEmpty()) {
+            showEmptyView(true);
+        } else {
+            var favoriteDicts = new ArrayList<Dict>();
+            for (Fav fav : favourites) {
+                Dict dict = dictDao.getDictById(fav.getId());
+                favoriteDicts.add(dict);
             }
-        });
+            showEmptyView(false);
+            dictAdapter.submitList(favoriteDicts);
+        }
     }
 
     private void showEmptyView(boolean yes) {
@@ -90,11 +79,4 @@ public class FavoriteFragment extends Fragment {
         loadFavoriteData();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (executorService != null) {
-            executorService.shutdown();
-        }
-    }
 }

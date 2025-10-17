@@ -61,6 +61,8 @@ public class DictActivity extends AppCompatActivity {
             addOrRemoveFavorite(dict);
         });
 
+        binding.ivBack.setOnClickListener(v -> finish());
+
     }
 
 

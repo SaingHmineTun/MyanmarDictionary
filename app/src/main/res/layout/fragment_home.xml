@@ -12,10 +12,12 @@
         android:layout_margin="10dp"
         android:hint="Search dictionary"
         app:endIconMode="clear_text"
+        app:endIconTint="?colorError"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_text">
+        app:startIconDrawable="@drawable/ic_text"
+        app:startIconTint="?colorPrimary">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"

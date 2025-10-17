@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- This is just an alias for the main theme since it already has NoActionBar -->
+    <style name="Theme.MyanmarDictionary.ActionBar" parent="Theme.MyanmarDictionary" />
+</resources>

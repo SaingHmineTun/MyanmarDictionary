@@ -12,11 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyanmarDictionary">
         <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyanmarDictionary.ActionBar" />
+        <activity
             android:name=".DictActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MyanmarDictionary.ActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
